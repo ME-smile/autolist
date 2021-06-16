@@ -36,6 +36,7 @@ class AutoList<T> extends StatefulWidget {
   final List<T> items;
   final AutoListCombinedItemBuilder<T>? builder;
   final Duration duration;
+  final ScrollController controller;
 
   final CompareOn<T> compareOn;
 
@@ -61,6 +62,7 @@ class AutoList<T> extends StatefulWidget {
     AutoListItemBuilder<T>? itemBuilder,
     CompareOn<T>? compareOn,
     EdgeInsetsGeometry? padding,
+    required this.controller,
   })  : assert((combinedBuilder != null) ^ (itemBuilder != null)),
         assert(combinedBuilder == null || animationBuilder == null),
         this.compareOn = compareOn ?? ((t) => t),
@@ -149,6 +151,7 @@ class _AutoListState<T> extends State<AutoList<T>> {
     return AnimatedList(
       padding: widget.padding,
       key: _listKey,
+      controller: widget.controller,
       initialItemCount: widget.items.length,
       itemBuilder:
           (BuildContext context, int index, Animation<double> animation) {
